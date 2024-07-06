@@ -29,20 +29,22 @@ function wait3(t) {
 
 }
 
-async function calculateTime(t1, t2, t3) {
+function calculateTime(t1, t2, t3) {
     currentTime = Date.now();
     
-    await Promise.all([wait1(t1), wait2(t2), wait3(t3)]);
-
-    updatedTime = Date.now();
-
-    timeTaken = updatedTime - currentTime;
-
-    return new Promise ( (resolve, reject) => {
-        resolve(timeTaken);
+    return Promise.all([wait1(t1), wait2(t2), wait3(t3)]).then( data => {
+        const endTime = Date.now();
+        return endTime - currentTime;
     })
 }
 
+
+async function callingTime(t1, t2, t3) {
+    result = await calculateTime(t1, t2, t3);
+    console.log(result);
+}
+
+callingTime(1, 2, 3);
 
 
 module.exports = calculateTime;
