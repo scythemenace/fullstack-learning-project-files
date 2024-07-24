@@ -48,7 +48,7 @@
   app.get('/todos/:id', (req, res) => {
     const todo = todos.find(t => t.id === parseInt(req.params.id));
     if (!todo) {
-      res.status(404).send();
+      res.status(404);
     } else {
       res.json(todo);
     }
@@ -89,5 +89,7 @@
   app.use((req, res, next) => {
     res.status(404).send();
   });
+
+  app.listen(3000);
   
   module.exports = app;

@@ -21,7 +21,7 @@
     Request Body: JSON object representing the todo item.
     Response: 201 Created with the ID of the created todo item in JSON format. eg: {id: 1}
     Example: POST http://localhost:3000/todos
-    Request Body: { "title": "Buy groceries", "completed": false, description: "I should buy groceries" }
+    Request Body: { "title": "Buy groceries", "completed": false, "description": "I should buy groceries" }
     
   4. PUT /todos/:id - Update an existing todo item by ID
     Description: Updates an existing todo item identified by its ID.
@@ -39,11 +39,101 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const port = 3000;
+
+const app = express();
+
+let tasks_db = {}; // To track tasks
+let id_db = {}; //To track for repeating id's
+
+//Function to get an IDs
+const randomIdGen = (id_database) => {
+  let max = Object.keys(id_database).length;
+  let randomId = Math.floor(Math.random() * max) + 1;
+  //console.log(`randomId = ${randomId}`);
+  //console.log(`checking if it results in undef: ${id_database[randomId]}`);
+  while (id_database[randomId] !== undefined) {
+      randomId = Math.floor(Math.random() * max) + 2;
+     //console.log(`new random_id = ${randomId}`);
+  }
+  //console.log(`final random_id = ${randomId}`);
+  return randomId;
+}
+
+app.use(bodyParser.json());
+
+app.get('/todos', (req, res) => {
+  let arr = [];
+  for (obj in tasks_db) {
+    //console.log(`This is the key of the object: ${obj}`)
+    let temp_obj = {}
+    for (sub_keys in tasks_db[obj]) {
+      //console.log(`This is the sub_key of the object: ${sub_keys}`);
+      temp_obj[sub_keys] = tasks_db[obj][sub_keys];
+    }
+    //console.log(`This is the final object: ${temp_obj}`)
+    arr.push(temp_obj);
+  }
+  res.status(200).json(
+    arr)
+})
+
+app.get('/todos/:id', (req, res) => {
+  let id = req.params.id;
+  let task = tasks_db[id];
+  if (tasks_db[id] == undefined) {
+    res.status(404).send()
+  }
+  res.status(200).json(task)
+})
+
+app.post('/todos', (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  const random_id = randomIdGen(id_db);
+  id_db[random_id] = "";
+  tasks_db[random_id] = {
+    "id": random_id,
+    "title": title,
+    "description": description
+  };
+  res.status(201).json({
+    "id": random_id,
+    "title": title,
+    "description": description,
+  })
+})
+
+app.put('/todos/:updateId', (req, res) => {
+  let id_of_new_item = req.params.updateId;
+  let title = req.body.title;
+  let description = req.body.description
+  let new_item = {}
+  new_item["id"] = id_of_new_item;
+  new_item["title"] = title;
+  new_item["description"] = description;
+  if (tasks_db[id_of_new_item] == undefined) {
+    res.status(404).send()
+  }
+  tasks_db[id_of_new_item] = new_item;
+  res.status(200).json(tasks_db[id_of_new_item])
+})
+
+app.delete('/todos/:delId', (req, res) => {
+  let keyToDelete = req.params.delId;
+  if (tasks_db[keyToDelete] == undefined) {
+    res.status(404).send()
+  }
+  delete tasks_db[keyToDelete];
+  delete id_db[keyToDelete];
+  res.status(200).send()
+})
+
+app.use((req, res, next) => {
+  res.status(404).send('404 Not Found')
+})
+
+module.exports = app;
