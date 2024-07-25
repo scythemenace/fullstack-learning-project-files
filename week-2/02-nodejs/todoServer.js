@@ -177,7 +177,7 @@ readFileForData().then(val => {
     })
 
     //Uncomment for self-testing
-    app.listen(port);
+    //app.listen(port);
 })
 
 module.exports = app;
