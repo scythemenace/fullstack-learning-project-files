@@ -41,99 +41,143 @@
  */
 const express = require('express');
 const fs = require('fs');
+const path = require('path')
 const bodyParser = require('body-parser');
 const port = 3000;
-
 const app = express();
+const pathName = path.join(__dirname, 'files', 'todo.txt');
 
-let tasks_db = {}; // To track tasks
-let id_db = {}; //To track for repeating id's
-
-//Function to get an IDs
-const randomIdGen = (id_database) => {
-  let max = Object.keys(id_database).length;
-  let randomId = Math.floor(Math.random() * max) + 1;
-  //console.log(`randomId = ${randomId}`);
-  //console.log(`checking if it results in undef: ${id_database[randomId]}`);
-  while (id_database[randomId] !== undefined) {
-      randomId = Math.floor(Math.random() * max) + 2;
-     //console.log(`new random_id = ${randomId}`);
-  }
-  //console.log(`final random_id = ${randomId}`);
-  return randomId;
+const readFileForData = () => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(pathName, 'utf-8', (err, data) => {
+      resolve(data);
+    })
+  })
 }
 
-app.use(bodyParser.json());
+readFileForData().then(val => {
+  let tasks = {}; // To track tasks
+  let id = {}; //To track for repeating id's
 
-app.get('/todos', (req, res) => {
-  let arr = [];
-  for (obj in tasks_db) {
-    //console.log(`This is the key of the object: ${obj}`)
-    let temp_obj = {}
-    for (sub_keys in tasks_db[obj]) {
-      //console.log(`This is the sub_key of the object: ${sub_keys}`);
-      temp_obj[sub_keys] = tasks_db[obj][sub_keys];
+  if (val != "") {
+    tasks = JSON.parse(val);
+    for (obj in tasks) {
+      id[obj] = ""
     }
-    //console.log(`This is the final object: ${temp_obj}`)
-    arr.push(temp_obj);
   }
-  res.status(200).json(
-    arr)
-})
+  let arr = [tasks, id];
+  return arr
+}).then((arr) => {
+    //Function to get an IDs
+    let tasks_db = arr[0];
+    let id_db = arr[1];
+    const randomIdGen = (id_database) => {
+      let max = Object.keys(id_database).length;
+      let randomId = Math.floor(Math.random() * max) + 1;
+      //console.log(`randomId = ${randomId}`);
+      //console.log(`checking if it results in undef: ${id_database[randomId]}`);
+      while (id_database[randomId] !== undefined) {
+          randomId = Math.floor(Math.random() * max) + 2;
+        //console.log(`new random_id = ${randomId}`);
+      }
+      //console.log(`final random_id = ${randomId}`);
+      return randomId;
+    }
 
-app.get('/todos/:id', (req, res) => {
-  let id = req.params.id;
-  let task = tasks_db[id];
-  if (tasks_db[id] == undefined) {
-    res.status(404).send()
-  }
-  res.status(200).json(task)
-})
+    app.use(bodyParser.json());
 
-app.post('/todos', (req, res) => {
-  const title = req.body.title;
-  const description = req.body.description;
-  const random_id = randomIdGen(id_db);
-  id_db[random_id] = "";
-  tasks_db[random_id] = {
-    "id": random_id,
-    "title": title,
-    "description": description
-  };
-  res.status(201).json({
-    "id": random_id,
-    "title": title,
-    "description": description,
-  })
-})
+    app.get('/todos', (req, res) => {
+      let arr = [];
+      for (obj in tasks_db) {
+        //console.log(`This is the key of the object: ${obj}`)
+        let temp_obj = {}
+        for (sub_keys in tasks_db[obj]) {
+          //console.log(`This is the sub_key of the object: ${sub_keys}`);
+          temp_obj[sub_keys] = tasks_db[obj][sub_keys];
+        }
+        //console.log(`This is the final object: ${temp_obj}`)
+        arr.push(temp_obj);
+      }
 
-app.put('/todos/:updateId', (req, res) => {
-  let id_of_new_item = req.params.updateId;
-  let title = req.body.title;
-  let description = req.body.description
-  let new_item = {}
-  new_item["id"] = id_of_new_item;
-  new_item["title"] = title;
-  new_item["description"] = description;
-  if (tasks_db[id_of_new_item] == undefined) {
-    res.status(404).send()
-  }
-  tasks_db[id_of_new_item] = new_item;
-  res.status(200).json(tasks_db[id_of_new_item])
-})
+      console.log(tasks_db);
+      res.status(200).json(
+        arr)
+    })
 
-app.delete('/todos/:delId', (req, res) => {
-  let keyToDelete = req.params.delId;
-  if (tasks_db[keyToDelete] == undefined) {
-    res.status(404).send()
-  }
-  delete tasks_db[keyToDelete];
-  delete id_db[keyToDelete];
-  res.status(200).send()
-})
+    app.get('/todos/:id', (req, res) => {
+      let id = req.params.id;
+      let task = tasks_db[id];
+      if (tasks_db[id] == undefined) {
+        res.status(404).send()
+      }
+      res.status(200).json(task)
+    })
 
-app.use((req, res, next) => {
-  res.status(404).send('404 Not Found')
+    app.post('/todos', (req, res) => {
+      const title = req.body.title;
+      const description = req.body.description;
+      const random_id = randomIdGen(id_db);
+      id_db[random_id] = "";
+      tasks_db[random_id] = {
+        "id": random_id,
+        "title": title,
+        "description": description
+      };
+      text = JSON.stringify(tasks_db)
+      fs.writeFile(pathName, text, 'utf-8', () => {
+        console.log(text);
+        console.log("file written successfully");
+      });
+      res.status(201).json({
+        "id": random_id,
+        "title": title,
+        "description": description,
+      })
+    })
+
+    app.put('/todos/:updateId', (req, res) => {
+      let id_of_new_item = req.params.updateId;
+      let title = req.body.title;
+      let description = req.body.description
+      let new_item = {}
+      new_item["id"] = id_of_new_item;
+      new_item["title"] = title;
+      new_item["description"] = description;
+      if (tasks_db[id_of_new_item] == undefined) {
+        res.status(404).send()
+      }
+      tasks_db[id_of_new_item] = new_item;
+      text = JSON.stringify(tasks_db)
+      console.log(text)
+      fs.writeFile(pathName, text, 'utf-8', () => {
+        console.log(text);
+        console.log("file written successfully");
+      });
+      res.status(200).json(tasks_db[id_of_new_item])
+    })
+
+    app.delete('/todos/:delId', (req, res) => {
+      let keyToDelete = req.params.delId;
+      if (tasks_db[keyToDelete] == undefined) {
+        res.status(404).send()
+      }
+      delete tasks_db[keyToDelete];
+      delete id_db[keyToDelete];
+      text = JSON.stringify(tasks_db)
+      console.log(text)
+      fs.writeFile(pathName, text, 'utf-8', () => {
+        console.log(text);
+        console.log("file written successfully");
+      });
+      res.status(200).send()
+    })
+
+    app.use((req, res, next) => {
+      res.status(404).send('404 Not Found')
+    })
+
+    //Uncomment for self-testing
+    app.listen(port);
 })
 
 module.exports = app;
