@@ -4,11 +4,6 @@ const router = Router();
 const { Admin } = require("../db/index.js");
 const { Course } = require("../db/index.js");
 
-idStoreObj = {};
-const randomIdGen = (idStoreObj) => {
-  return Object.keys(idStoreObj).length;
-};
-
 // Admin Routes
 router.post("/signup", async (req, res) => {
   // Implement admin signup logic
@@ -37,21 +32,20 @@ router.post("/signup", async (req, res) => {
 router.post("/courses", adminMiddleware, async (req, res) => {
   // Implement course creation logic
   let { title, description, price, imageLink } = req.body;
-  let id = randomIdGen(idStoreObj);
-  idStoreObj[id] = "";
   let newCourse = new Course({
-    id: id,
     title: title,
     description: description,
     price: price,
     imageLink: imageLink,
     published: true,
-    userThatPurchased: "",
   });
-
+  newCourse["userThatPurchased"] = {
+    "username": null
+  };
+  newCourse.markModified("userThatPurchased");
   await newCourse.save();
   res.status(200).json({
-    message: `Courses created successfully, courseId: ${id}`,
+    message: `Courses created successfully, courseId: ${newCourse._id}`,
   });
 });
 
