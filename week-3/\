@@ -1,8 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { Course } = require("../db/index.js");
-const { User } = require("../db/index.js");
+const { Course } = require("../db");
 
 // User Routes
 router.post("/signup", async (req, res) => {
@@ -10,16 +9,13 @@ router.post("/signup", async (req, res) => {
   // Implement admin signup logic
   let username = req.body.username;
   let password = req.body.password;
-  let userExists = await User.findOne({
-    username: username,
-    password: password,
-  });
-  if (userExists) {
+  let adminExists = User.findOne({ username: username, password: password });
+  if (adminExists) {
     res.status(404).json({
-      message: "User already exists",
+      message: "Admin already exists",
     });
   }
-  const newUser = new User({
+  const newUser = new Admin({
     username: username,
     password: password,
   });
@@ -65,3 +61,4 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+
