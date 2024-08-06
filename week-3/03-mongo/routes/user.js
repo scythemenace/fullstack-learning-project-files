@@ -59,7 +59,7 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   // Implement fetching purchased courses logic
   const username = req.headers.username;
   const courses = await Course.find({ userThatPurchased: username });
-  res.status(400).json({
+  res.status(200).json({
     purchasedCourses: courses,
   });
 });
