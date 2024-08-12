@@ -68,6 +68,7 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   {$exists: true} in mongodb (not mongoose) tells us that a filter
   (in our case "userThatPurchased.username" where username is the variable)
   exists in the mongodb database.*/
+
   const courses = await Course.find({ [`userThatPurchased.${username}`]: {$exists: true} });
   res.status(200).json({
     purchasedCourses: courses,

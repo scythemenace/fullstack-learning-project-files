@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <input
+      type="text"
+      class="inputs"
+      id="firstNumber"
+      placeholder="First number"
+    />
+    <br /><br />
+    <input
+      type="text"
+      class="inputs"
+      id="secondNumber"
+      placeholder="Second number"
+    />
+    <br /><br />
+    <button onclick="debouncePopulateDivs()">Calculate sum</button>
+    <br /><br />
+    <div id="finalSum"></div>
+    <script type="text/javascript">
+      let timeout;
+      const debouncePopulateDivs = () => {
+        //Delay the call to populateDiv() until the function hasn't been called for
+        //100 ms and it has been called at least once
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          populateDiv();
+        }, 100);
+      };
+      const populateDiv = () => {
+        const firstNumber = document.getElementById("firstNumber").value;
+        const secondNumber = document.getElementById("secondNumber").value;
+        fetch(
+          "https://sum-server.100xdevs.com/sum?a=" +
+            firstNumber +
+            "&b=" +
+            secondNumber,
+        ).then((response) => {
+          response.text().then((data) => {
+            console.log(data);
+            document.getElementById("finalSum").innerHTML = data;
+          });
+        });
+      };
+      /*
+      the code below shows some basic dom functionality 
+      const populatediv = () => {
+        const element = document.getelementbyid("finalsum");
+        element.innerhtml = parseint(firstnumber) + parseint(secondnumber);
+      };
+      */
+    </script>
+  </body>
+</html>

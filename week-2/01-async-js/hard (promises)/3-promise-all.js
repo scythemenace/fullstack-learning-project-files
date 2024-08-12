@@ -39,12 +39,4 @@ function calculateTime(t1, t2, t3) {
 }
 
 
-async function callingTime(t1, t2, t3) {
-    result = await calculateTime(t1, t2, t3);
-    console.log(result);
-}
-
-callingTime(1, 2, 3);
-
-
 module.exports = calculateTime;

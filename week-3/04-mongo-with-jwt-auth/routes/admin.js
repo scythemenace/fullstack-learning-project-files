@@ -63,7 +63,7 @@ router.post("/courses", adminMiddleware, async (req, res) => {
   });
 
   newCourse["userThatPurchased"] = {
-    "username": null
+    username: null,
   };
   newCourse.markModified("userThatPurchased");
   await newCourse.save();

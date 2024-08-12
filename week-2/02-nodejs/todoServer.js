@@ -39,6 +39,7 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path')
@@ -62,7 +63,7 @@ readFileForData().then(val => {
   if (val != "") {
     tasks = JSON.parse(val);
     for (obj in tasks) {
-      id[obj] = ""
+        id[obj] = ""
     }
   }
   let arr = [tasks, id];
@@ -177,7 +178,7 @@ readFileForData().then(val => {
     })
 
     //Uncomment for self-testing
-    //app.listen(port);
+    app.listen(port);
 })
 
 module.exports = app;
