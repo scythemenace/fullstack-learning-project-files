@@ -1,0 +1,1 @@
+This repository contains all of my mini-projects that I am currently doing to learn fullstack development. **Note:-** Although, this repository currently only contains skills related to the MERN stack, I will be exploring other technologies like Golang, HTMX, Laravel(PHP), etc.
