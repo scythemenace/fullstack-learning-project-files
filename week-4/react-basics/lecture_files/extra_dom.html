@@ -11,7 +11,6 @@
       <br /><br />
       <input id="description" type="text" placeholder="description" />
       <br /><br />
-      <button onclick="addTodo()">Add todo</button>
     </div>
     <div id="container"></div>
     <script type="text/javascript">
@@ -48,6 +47,38 @@
         console.log(subElements);
         mainElement.appendChild(subElements);
       };
+
+      //To showcase REACT states, we will create our own way to handle states
+
+      // State will always be an array
+      // Every element of state would have a title, description and id
+      const updateDOMAcctoStates = (state) => {
+        // Since state will be an array our goal is, ignore the original parent field and whatever it has
+        // Create a fresh element based on the state array
+        const parent = document.getElementById("container");
+        parent.innerHTML = "";
+        for (let i = 0; i < state.length; i++) {
+          const child = addChild(
+            state[i].title,
+            state[i].description,
+            state[i].id,
+          );
+          parent.appendChild(child);
+        }
+      };
+
+      // In the real we won't have access to the function below upfront. We'll get
+      // this through a backend and given the items we'll be rendering the page
+      // This is because if a client makes some change to certain parts of the app
+      // we need to be able to keep track of it, so generally each change will update
+      // the backend logic and thus in the backend we'll update the "State" array.
+      // Only thing we need to do here is to "fetch" the state array and call it
+      // whenever a website loads fresh 
+      window.setInterval(async () => {
+        const res = await fetch("https://sum-server.100xdevs.com/todos");
+        const data = await res.json();
+        updateDOMAcctoStates(data.todos);
+      }, 5000);
       /*
         Weird way to add elements in a DOM (we just append any new div using concatenate)
         const originalHtml = document.getElementById("container").innerHTML;
