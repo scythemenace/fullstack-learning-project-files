@@ -93,8 +93,8 @@ Built basic mini-projects using React to get comfortable with its syntax and com
 - React Hooks
   - `useState`
   - `useEffect`
-  - `useContext`
-  - `useReducer`
+  - `useRef`
+  - experimented with other hooks (like `useReducer`, `useContext`) on the side...
 
 **Description:**
 
