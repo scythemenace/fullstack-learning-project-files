@@ -124,19 +124,8 @@ Explored Tailwind CSS as a modern framework for writing responsive and utility-f
 
 ## Future Plans
 
-I will continue to update this repository as I progress in learning more advanced topics in the MERN stack, including but not limited to:
-
-- Advanced React patterns
-- Redux and other state management libraries
-- Testing with Jest and Enzyme
-- Deployment strategies
-- TypeScript integration
-
-## Additional Resources
-
-- **Todo App Repository:** [https://github.com/scythemenace/todo_app](https://github.com/scythemenace/todo_app)
-- **100xDevs Original Material:** [100xDevs GitHub](https://github.com/100xDevs)
+I will continue to update this repository as I progress in learning more advanced topics in the MERN stack
 
 ## Acknowledgements
 
-This repository was originally cloned from the [100xDevs](https://github.com/100xDevs) repository. All original material belongs to them. I have made my own changes and additions according to what I wanted to experiment with and to complete the assignments.
+This repository was originally cloned from the [100xDevs](https://github.com/100xdevs-cohort-2/assignments) repository. All original material belongs to them. I have made my own changes and additions according to what I wanted to experiment with and to complete the assignments.
