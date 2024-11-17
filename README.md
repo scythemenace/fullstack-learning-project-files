@@ -34,6 +34,7 @@ This repository contains multiple folders, each representing a week of learning 
 - **Tailwind CSS**
 - **Axios**
 - **JWT Authentication**
+- **Bcrypt Password Hashing**
 
 ## Weekly Breakdown
 
@@ -55,6 +56,7 @@ Explored the fundamentals of asynchronous programming in JavaScript, focusing on
 - Express.js
 - MongoDB integration
 - JWT Authentication
+- (I learnt password hashing using bcrypt on the side but this repository doesn't contain those code files)
 
 **Description:**
 
