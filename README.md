@@ -110,7 +110,7 @@ Focused on understanding React Hooks and how they simplify state management and 
 
 **Description:**
 
-Learned how to use Recoil for efficient state management in React applications. Addressed the issues of prop drilling and how Recoil can simplify state sharing across components in large projects. Additionally, experimented with the react-router-dom library and created various client side routes.
+Learned how to use Recoil for efficient state management in React applications. Addressed the issues of prop drilling and how Recoil can simplify state sharing across components in large projects. Additionally, explored the capabilities of `react-router-dom` to implement client-side routing, optimizing navigation and leveraging client-side bundling for enhanced performance. Further strengthened knowledge by experimenting with the React Suspense API, effectively managing asynchronous rendering to improve data-fetching workflows and enhance user experience.
 
 ### Week 8
 
