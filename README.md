@@ -1,6 +1,6 @@
-# MERN Stack Learning Projects
+# Full Stack Learning Projects
 
-Welcome to my MERN (MongoDB, Express.js, React, Node.js) stack learning repository! This repository is a collection of mini-projects, experiments, and assignments that I have completed while learning web application development using the MERN stack. It serves as both a personal learning journal and a resource for others interested in similar topics.
+Welcome to my full stack learning repository! This repository is a collection of mini-projects, experiments, and assignments that I have completed while learning web application development using the MERN stack. It serves as both a personal learning journal and a resource for others interested in similar topics. Note:- Currently I am exploring the MERN stack due to its flexibility and ease of use for personal projects, but will be diving into other relevant technologies like Laravel(PHP), Golang-HTMX, etc.
 
 ## Table of Contents
 
