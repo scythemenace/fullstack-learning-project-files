@@ -104,12 +104,13 @@ Focused on understanding React Hooks and how they simplify state management and 
 
 **Topics Covered:**
 
+- `react-router-dom` basics
 - Recoil for State Management
 - Prop Drilling Issues
 
 **Description:**
 
-Learned how to use Recoil for efficient state management in React applications. Addressed the issues of prop drilling and how Recoil can simplify state sharing across components in large projects.
+Learned how to use Recoil for efficient state management in React applications. Addressed the issues of prop drilling and how Recoil can simplify state sharing across components in large projects. Additionally, experimented with the react-router-dom library and created various client side routes.
 
 ### Week 8
 
