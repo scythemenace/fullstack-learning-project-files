@@ -35,3 +35,36 @@ const runAfterOneSec = (func: () => void): void => {
 runAfterOneSec(() => {
   console.log("Hello World");
 });
+
+// Using interfaces - basically a skeleton of what an object should be and it can be used in multiple places (avoids violation of the dry rule)
+
+interface User {
+  firstName: string;
+  lastName: string;
+  age: number;
+  email?: string; // ? means it's optional
+}
+
+const isLegal = (user: User): boolean => {
+  return user.age >= 18 ? true : false;
+};
+
+const greet = (user: User): void => {
+  console.log(`Hello ${user.firstName}`);
+};
+
+// Above we used the interface user twice to create two different functions based on different members of user
+
+console.log(
+  isLegal({
+    firstName: "Ankur",
+    lastName: "Pandey",
+    age: 20,
+  }),
+);
+
+greet({
+  firstName: "Dev",
+  lastName: "Malik",
+  age: 20,
+});
