@@ -38,12 +38,12 @@ runAfterOneSec(() => {
 
 // Using interfaces - basically a skeleton of what an object should be and it can be used in multiple places (avoids violation of the dry rule)
 
-interface User {
+type User = {
   firstName: string;
   lastName: string;
   age: number;
   email?: string; // ? means it's optional
-}
+};
 
 const isLegal = (user: User): boolean => {
   return user.age >= 18 ? true : false;
@@ -68,3 +68,68 @@ greet({
   lastName: "Malik",
   age: 20,
 });
+
+// We can also implement interfaces, similar to Java. Interfaces basically are skeletons or boilerplate of a data type
+// Here we will try to implement an interface
+
+interface Person {
+  name: string;
+  age: number;
+  greet(phrase: string): void;
+}
+
+class Employee implements Person {
+  name: string;
+  age: number;
+
+  constructor(n: string, a: number) {
+    this.name = n;
+    this.age = a;
+  }
+
+  greet(phrase: string): void {
+    console.log(`${phrase} ${this.name}`);
+  }
+}
+
+const e = new Employee("ankur", 20);
+console.log(e.name);
+e.greet("Bye");
+
+// Unions - similar to OR haskell where we can use two different things to represent a type
+
+type id = string | number; // Id may be a number or a string
+
+// We can also use it inside functions
+
+function greetWithNumberOrStr(phrase: string | number) {
+  console.log(`${phrase}`);
+}
+
+greetWithNumberOrStr("Hello");
+greetWithNumberOrStr(20);
+
+// Intersections - they're similar to the set meaning of "union" even though they're called as intersections
+
+// Let's say we have two types
+
+type Teacher = {
+  name: string;
+  age: number;
+  department: string;
+};
+
+type Student = {
+  name: string;
+  class: string;
+};
+
+type teacherAndStudent = Teacher & Student; // Inherently means would have the type of both the teacher and the student
+/*
+  => type teacherAndStudent = {
+    name: string;
+    age: number;
+    department: string;
+    class: string;
+  }
+*/
