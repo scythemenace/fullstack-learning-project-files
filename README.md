@@ -25,6 +25,7 @@ This repository contains multiple folders, each representing a week of learning 
 
 ## Technologies Used
 
+- **TypeScript**
 - **JavaScript**
 - **Node.js**
 - **Express.js**
